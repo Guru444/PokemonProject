@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">PokemonProject</string>
+    <string name="app_name">Pokemon</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="nav_open">Open</string>
+    <string name="nav_close">Close</string>
+    <string name="channel_id">general</string>
+    <string name="channel_name">Pokemon Channel</string>
+    <string name="channel_description">PokemonChannel</string>
 </resources>
