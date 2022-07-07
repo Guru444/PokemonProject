@@ -19,6 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     var actionBarDrawerToggle: ActionBarDrawerToggle? = null
 
@@ -27,19 +28,36 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setUpNavView()
 
-        actionBarDrawerToggle = ActionBarDrawerToggle(this, binding.myDrawerLayout, R.string.nav_open, R.string.nav_close)
-        binding.myDrawerLayout.addDrawerListener(actionBarDrawerToggle!!)
-        actionBarDrawerToggle!!.syncState()
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return if (actionBarDrawerToggle!!.onOptionsItemSelected(item)) {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
+    }
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(R.id.fragment)
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+    private fun setUpNavView() {
+        val drawerLayout: DrawerLayout = binding.myDrawerLayout
+        val navController = findNavController(R.id.fragment)
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.nav_logout,
+            ), drawerLayout
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        binding.navView.setupWithNavController(navController)
+        binding.navView.setNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_logout ->
+                    finish()
+            }
+            drawerLayout.closeDrawer(GravityCompat.START, true)
             true
-        } else super.onOptionsItemSelected(item)
-    }
-
+        }}
+}
 
 
 }
